@@ -3,25 +3,25 @@ package subject;
 import observer.Observer;
 
 import java.util.ArrayList;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Subject {
     protected final ArrayList<Observer> observers = new ArrayList<>();
-    protected final ScheduledExecutorService scheduler;
+    protected final ReentrantLock lock = new ReentrantLock();
     protected int state;
-
-    public Subject(ScheduledExecutorService scheduler) {
-        this.scheduler = scheduler;
-    }
 
     public int getState() {
         return state;
     }
 
     public void setState(int state) {
-        this.state = state;
-        notifyAllObservers();
+        lock.lock();
+        try {
+            this.state = state;
+            notifyAllObservers();
+        } finally {
+            lock.unlock();
+        }
     }
 
     public void attach(Observer observer) {
@@ -34,7 +34,7 @@ public class Subject {
 
     public void notifyAllObservers() {
         for (Observer observer : observers) {
-            scheduler.schedule(observer::update, 0, TimeUnit.MILLISECONDS);
+            observer.update();
         }
     }
 }

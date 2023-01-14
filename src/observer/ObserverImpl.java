@@ -12,8 +12,8 @@ public class ObserverImpl implements Observer {
 
     public void update() {
         int state = subject.getState();
-        StackTraceElement currentMethod = Thread.currentThread().getStackTrace()[1];
+        int epoch = subject.getCurrentEpoch();
         // Traitement de l'update
-        System.out.println("Observer: Nouvel état: " + state + ", appel de la méthode: " + currentMethod.getMethodName());
+        System.out.println("Observer: Nouvel état: " + state + ", époque: " + epoch);
     }
 }
