@@ -1,35 +1,31 @@
 package proxy;
 
 import observer.Observer;
-import observer.ObserverDeCapteur;
 import observer.ObserverDeCapteurAsync;
 import subject.Capteur;
 import subject.CapteurAsync;
+import subject.Subject;
 
-import java.util.Random;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
-public class Canal implements ObserverDeCapteurAsync, CapteurAsync {
+public class Canal implements ObserverDeCapteurAsync, CapteurAsync, Subject {
     private final ScheduledExecutorService scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(10);
-    ObserverDeCapteur observerDeCapteur;
+    List<Observer> observers = new ArrayList<>();
     Capteur capteur;
+    private final AtomicInteger epoch = new AtomicInteger(0);
 
     public Canal(Capteur capteur) {
         this.capteur = capteur;
-        capteur.attach(this);
-    }
-
-    @Override
-    public Future<Void> update(Capteur capteur) {
-        return scheduledThreadPoolExecutor.schedule(new Update(), new Random().nextInt(100, 500), TimeUnit.SECONDS);
     }
 
     @Override
     public void attach(Observer observer) {
-        capteur.attach(observer);
+        observers.add(observer);
     }
 
     @Override
@@ -38,14 +34,17 @@ public class Canal implements ObserverDeCapteurAsync, CapteurAsync {
     }
 
     @Override
-    public Future<Integer> getValue() {
-        return scheduledThreadPoolExecutor.schedule(new GetValue(capteur), new Random().nextInt(100, 500), TimeUnit.MILLISECONDS);
+    public Future<Void> update(Capteur capteur) {
+        return scheduledThreadPoolExecutor.submit(() -> {
+            int currentEpoch = epoch.getAndIncrement();
+            System.out.println("Epoch: " + currentEpoch);
+            capteur.tick();
+            return null;
+        });
     }
 
     @Override
-    public void tick() {
-        for (Observer observer : observers) {
-            observer.update(this);
-        }
+    public Future<Integer> getValue() {
+        return scheduledThreadPoolExecutor.submit(() -> capteur.getValue());
     }
 }
