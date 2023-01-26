@@ -1,6 +1,10 @@
 package subject;
 
+
+/**
+ * @author Orgeval Thomas & Bourgeois Bastien
+ */
 public interface SensorAsync {
 
-    Integer getValue() throws Exception;
+    int getValue() throws Exception;
 }

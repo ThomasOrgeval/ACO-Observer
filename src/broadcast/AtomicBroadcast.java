@@ -5,6 +5,9 @@ import subject.SensorImpl;
 
 import java.util.List;
 
+/**
+ * @author Orgeval Thomas & Bourgeois Bastien
+ */
 public class AtomicBroadcast implements Broadcast {
     private SensorImpl sensor;
     private List<ObserverAsync> channels;
@@ -27,22 +30,17 @@ public class AtomicBroadcast implements Broadcast {
     public void execute() {
         sensor.setLock(true);
         count = channels.size();
-
-        channels.forEach(observer -> {
-            try {
-                observer.update(sensor);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
+        sensor.update();
     }
 
     /**
      * @return null
      */
     @Override
-    public Integer valueRead() {
-        sensor.setLock(--count != 0);
+    public int valueRead() {
+        if (--count == 0) {
+            sensor.setLock(false);
+        }
         return sensor.getBaseValue();
     }
 }

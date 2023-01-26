@@ -1,7 +1,11 @@
 package subject;
 
+
+/**
+ * @author Orgeval Thomas & Bourgeois Bastien
+ */
 public interface Sensor extends SensorAsync, Subject {
-    Integer getValue();
+    int getValue();
 
     void tick();
 }

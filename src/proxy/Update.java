@@ -5,6 +5,10 @@ import subject.SensorAsync;
 
 import java.util.concurrent.Callable;
 
+
+/**
+ * @author Orgeval Thomas & Bourgeois Bastien
+ */
 public class Update implements Callable<Void> {
     private final ObserverAsync observer;
     private final SensorAsync sensor;

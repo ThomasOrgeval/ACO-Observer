@@ -7,6 +7,10 @@ import observer.ObserverAsync;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * @author Orgeval Thomas & Bourgeois Bastien
+ */
 public class SensorImpl implements Sensor {
     private final List<ObserverAsync> observers = new ArrayList<>();
     private final Broadcast broadcast;
@@ -30,7 +34,7 @@ public class SensorImpl implements Sensor {
     }
 
     @Override
-    public Integer getValue() {
+    public int getValue() {
         return broadcast.valueRead();
     }
 
@@ -52,7 +56,7 @@ public class SensorImpl implements Sensor {
         });
     }
 
-    public Integer getBaseValue() {
+    public int getBaseValue() {
         return value;
     }
 

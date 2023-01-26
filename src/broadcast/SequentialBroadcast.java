@@ -5,6 +5,10 @@ import subject.SensorImpl;
 
 import java.util.List;
 
+
+/**
+ * @author Orgeval Thomas & Bourgeois Bastien
+ */
 public class SequentialBroadcast implements Broadcast {
     private SensorImpl sensor;
     private List<ObserverAsync> channels;
@@ -28,14 +32,7 @@ public class SequentialBroadcast implements Broadcast {
         if (count == 0) {
             value = sensor.getBaseValue();
             count = channels.size();
-
-            channels.forEach(observer -> {
-                try {
-                    observer.update(sensor);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
+            sensor.update();
         }
     }
 
@@ -43,7 +40,7 @@ public class SequentialBroadcast implements Broadcast {
      * @return null
      */
     @Override
-    public Integer valueRead() {
+    public int valueRead() {
         count--;
         return value;
     }

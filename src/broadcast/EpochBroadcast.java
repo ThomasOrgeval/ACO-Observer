@@ -5,9 +5,11 @@ import subject.SensorImpl;
 
 import java.util.List;
 
+/**
+ * @author Orgeval Thomas & Bourgeois Bastien
+ */
 public class EpochBroadcast implements Broadcast {
     private SensorImpl sensor;
-    private List<ObserverAsync> channels;
 
     /**
      * @param sensor
@@ -16,7 +18,6 @@ public class EpochBroadcast implements Broadcast {
     @Override
     public void configure(SensorImpl sensor, List<ObserverAsync> channels) {
         this.sensor = sensor;
-        this.channels = channels;
     }
 
     /**
@@ -24,20 +25,14 @@ public class EpochBroadcast implements Broadcast {
      */
     @Override
     public void execute() {
-        channels.forEach(observer -> {
-            try {
-                observer.update(sensor);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
+        sensor.update();
     }
 
     /**
      * @return
      */
     @Override
-    public Integer valueRead() {
+    public int valueRead() {
         return sensor.getBaseValue();
     }
 }

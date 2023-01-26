@@ -4,6 +4,10 @@ import subject.SensorAsync;
 
 import java.util.concurrent.Callable;
 
+
+/**
+ * @author Orgeval Thomas & Bourgeois Bastien
+ */
 public class GetValue implements Callable<Integer> {
     private final SensorAsync sensorAsync;
 
