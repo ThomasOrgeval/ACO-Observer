@@ -1,20 +1,18 @@
 package proxy;
 
-import subject.Capteur;
+import subject.SensorAsync;
 
 import java.util.concurrent.Callable;
 
 public class GetValue implements Callable<Integer> {
-    private final Capteur capteur;
+    private final SensorAsync sensorAsync;
 
-    public GetValue(Capteur capteur) {
-        this.capteur = capteur;
+    public GetValue(SensorAsync sensorAsync) {
+        this.sensorAsync = sensorAsync;
     }
 
     @Override
-    public Integer call() {
-        Integer integer = capteur.getValue();
-        System.out.println("GetValue.call(): " + integer);
-        return integer;
+    public Integer call() throws Exception {
+        return sensorAsync.getValue();
     }
 }

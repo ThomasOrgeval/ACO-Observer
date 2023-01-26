@@ -1,5 +1,5 @@
 package observer;
 
-public interface Observer<T, U> {
-    U update(T object);
+public interface Observer<T> {
+    void update(T object) throws Exception;
 }
