@@ -127,20 +127,23 @@ Main ..> EpochBroadcast
 Main ..> SequentialBroadcast
 
 Scheduler <.. Channel
-Scheduler <.. Main
-Future <.. Main
 Callable <.. GetValue
 Callable <.. Update
 
-note "Observer" as N1
-Observer <.. N1 : Observer
-Subject <.. N1 : Subject
-Sensor <.. N1 : ConcreteSubject
-ObserverAsync <.. N1 : ConcreteObserver
+note "ActiveObject" as N1
+Future <.. N1 : Future
+Callable <.. N1 : MethodInvocation
+Update <.. N1 : ConcreteMI
+Scheduler <.. N1 : Scheduler
+Channel <.. N1 : Proxy
+Display <.. N1 : Servant
+ObserverAsync <.. N1 : Service
+Sensor <.. N1 : Client
 
-note "Strategy" as N2
-SensorImpl <.. N2 : Context
-AtomicBroadcast <.. N2 : ConcreteStrategy
-Broadcast <.. N2 : Strategy
+note "Proxy" as N2
+Channel <.. N2 : Proxy
+ObserverAsync <.. N2 : Client
+SensorImpl <.. N2 : ConcreteComponent
+Sensor <.. N2 : Component
 
 @enduml
