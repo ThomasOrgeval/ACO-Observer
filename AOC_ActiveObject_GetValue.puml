@@ -1,0 +1,46 @@
+@startuml
+
+package Java #lightgray {
+    class Future {}
+    class MethodInvocation {}
+    class Scheduler {}
+}
+
+interface SensorAsync {
+    getValue(): Future<Integer>
+}
+
+class Channel {
+    update(c: Capteur): Future<Void>
+}
+
+class Display {}
+
+class SensorImpl {
+    getValue():Integer
+}
+
+interface Sensor {
+    getValue(): Integer
+}
+
+class GetValue {
+    call(): void
+}
+
+SensorAsync <|.. Channel
+MethodInvocation <|.. GetValue
+Sensor <|.. SensorImpl
+
+note "getValue: ActiveObject" as N1
+Channel <.. N1 : Proxy
+Display <.. N1 : Client
+Sensor <.. N1 : Servant
+SensorAsync <.. N1 : Service
+Future <.. N1 : Future
+MethodInvocation <.. N1 : MI
+Scheduler <.. N1 : Scheduler
+SensorImpl <.. N1 : ConcretServant
+GetValue <.. N1 : ConcreteMI
+
+@enduml

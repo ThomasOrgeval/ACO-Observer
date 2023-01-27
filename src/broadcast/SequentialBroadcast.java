@@ -23,9 +23,14 @@ public class SequentialBroadcast implements Broadcast {
     private List<ObserverAsync> channels;
 
     /**
+     * Value to broadcast
+     */
+    private int value;
+
+    /**
      * Number of channels to broadcast to
      */
-    private int value, count = 0;
+    private int count = 0;
 
     /**
      * Configure the broadcast

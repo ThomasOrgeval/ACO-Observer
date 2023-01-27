@@ -1,0 +1,48 @@
+@startuml
+
+package Java #lightgray {
+    class Future {}
+    class MethodInvocation {}
+    class Scheduler {}
+}
+
+interface ObserverAsync {
+    update(c: Sensor): Future
+}
+
+class Channel {
+    update(c: Sensor): Future
+}
+
+class Display {}
+
+class SensorImpl {
+    - observers: List<ObserverAsync>
+}
+
+class Update {
+    call(): void
+}
+
+interface Observer {
+}
+
+
+
+Observer <|.. Display
+ObserverAsync -- SensorImpl
+ObserverAsync <|.. Channel
+MethodInvocation <|.. Update
+
+note "update: ActiveObject" as N1
+Channel <.. N1 : Proxy
+Display <.. N1 : ConcretServant
+Observer <.. N1 : Servant
+ObserverAsync <.. N1 : Service
+Future <.. N1 : Future
+MethodInvocation <.. N1 : MI
+Scheduler <.. N1 : Scheduler
+SensorImpl <.. N1 : Client
+Update <.. N1 : ConcreteMI
+
+@enduml

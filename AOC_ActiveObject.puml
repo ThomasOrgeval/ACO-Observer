@@ -2,9 +2,9 @@
 
 package broadcast #lightblue {
   class AtomicBroadcast {
-      + sensor
-      + channels
-      + count
+      - sensor
+      - channels
+      - count
       configure()
       execute()
       valueRead()
@@ -15,16 +15,16 @@ package broadcast #lightblue {
       valueRead()
   }
   class EpochBroadcast {
-      +sensor
+      - sensor
       configure()
       execute()
       valueRead()
   }
   class SequentialBroadcast {
-      +sensor
-      +channels
-      +value
-      +count
+      - sensor
+      - channels
+      - value
+      - count
       configure()
       execute()
       valueRead()
@@ -37,8 +37,8 @@ package observer #PaleGreen {
   update()
   getValues()
   getNumber()
-  +values
-  +number
+  - values
+  - number
   }
   interface Observer {
   update()
@@ -52,20 +52,20 @@ package proxy #Wheat {
   Channel()
   update()
   getValue()
-  +scheduledExecutorService
-  +observer
-  +sensor
+  - scheduledExecutorService
+  - observer
+  - sensor
   }
   class GetValue {
   GetValue()
   call()
-  +sensorAsync
+  - sensorAsync
   }
   class Update {
   Update()
   call()
-  +observer
-  +sensor
+  - observer
+  - sensor
   }
 }
 
@@ -86,10 +86,10 @@ package subject #GreenYellow {
   update()
   getBaseValue()
   setLock()
-  +observers
-  +broadcast
-  +value
-  +lock
+  - observers
+  - broadcast
+  - value
+  - lock
   }
   interface Subject {
   attach()
