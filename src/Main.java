@@ -14,9 +14,14 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * Main class
+ *
  * @author Orgeval Thomas & Bourgeois Bastien
  */
 public class Main {
+    /**
+     * Number of observers to generate
+     */
     private final static int NUMBER_OF_OBSERVERS = 3;
 
     public static void main(String[] args) throws InterruptedException {
@@ -32,6 +37,12 @@ public class Main {
         broadcast(new EpochBroadcast());
     }
 
+    /**
+     * Broadcast a sensor value to all observers
+     *
+     * @param broadcast broadcast to use (Atomic, Sequential or Epoch)
+     * @throws InterruptedException
+     */
     private static void broadcast(Broadcast broadcast) throws InterruptedException {
         SensorImpl sensor = new SensorImpl(broadcast);
 

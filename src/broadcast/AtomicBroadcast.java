@@ -6,16 +6,31 @@ import subject.SensorImpl;
 import java.util.List;
 
 /**
+ * Atomic broadcast
+ *
  * @author Orgeval Thomas & Bourgeois Bastien
  */
 public class AtomicBroadcast implements Broadcast {
+    /**
+     * Sensor to broadcast
+     */
     private SensorImpl sensor;
+
+    /**
+     * Channels to broadcast to
+     */
     private List<ObserverAsync> channels;
+
+    /**
+     * Number of channels to broadcast to
+     */
     private int count = 0;
 
     /**
-     * @param sensor
-     * @param channels
+     * Configure the broadcast
+     *
+     * @param sensor   sensor to broadcast
+     * @param channels channels to broadcast to
      */
     @Override
     public void configure(SensorImpl sensor, List<ObserverAsync> channels) {
@@ -24,7 +39,7 @@ public class AtomicBroadcast implements Broadcast {
     }
 
     /**
-     *
+     * Broadcast the value to all channels
      */
     @Override
     public void execute() {
@@ -34,7 +49,9 @@ public class AtomicBroadcast implements Broadcast {
     }
 
     /**
-     * @return null
+     * Get the value to broadcast
+     *
+     * @return value to broadcast
      */
     @Override
     public int valueRead() {
