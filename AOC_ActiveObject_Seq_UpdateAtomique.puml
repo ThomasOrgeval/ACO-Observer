@@ -1,0 +1,43 @@
+@startuml
+'httpsc://plantuml.com/siquence-diagram
+
+box "Client" #LightBlue
+participant "si: Sensor"
+end box
+
+box "Proxy" #Orange
+participant "ca: Channel"
+end box
+
+ -> "si: Sensor" : tick()
+activate "si: Sensor"
+"si: Sensor" -> "ab: AtomicBroadcast" : execute()
+deactivate "si: Sensor"
+
+activate "ab: AtomicBroadcast"
+"si: Sensor" <- "ab: AtomicBroadcast" : lock()
+activate "si: Sensor"
+"si: Sensor" --> "ab: AtomicBroadcast" :
+deactivate "si: Sensor"
+"ab: AtomicBroadcast" -> "ca: Channel" : update()
+deactivate "ab: AtomicBroadcast"
+
+activate "ca: Channel"
+create "u1: Update"
+"ca: Channel" -> "u1: Update" : create()
+"ca: Channel" -> "sc: Scheduler" : scheduler()
+activate "sc: Scheduler"
+"ca: Channel" <-- "sc: Scheduler" : f: Future
+
+deactivate "sc: Scheduler"
+deactivate "ca: Channel"
+
+box "ConcreteMI" #Wheat
+participant "u1: Update"
+end box
+
+box "Scheduler" #FFAAAA
+participant "sc: Scheduler"
+end box
+
+@enduml

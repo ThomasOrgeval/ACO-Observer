@@ -1,0 +1,41 @@
+@startuml
+'httpsc://plantuml.com/siquence-diagram
+
+
+box "Scheduler" #FFAAAA
+participant "sc: Scheduler"
+end box
+
+activate "sc: Scheduler"
+"gv: GetValue" <- "sc: Scheduler" : call()
+activate "gv: GetValue"
+
+box "ConcreteMI" #Wheat
+participant "gv: GetValue"
+end box
+
+box "Client" #LightBlue
+participant "si: Sensor"
+end box
+
+"gv: GetValue" -> "si: Sensor" : getValue()
+activate "si: Sensor"
+"si: Sensor" -> "ab: AtomicBroadcast" : valueRead()
+activate "ab: AtomicBroadcast"
+"ab: AtomicBroadcast" --> "si: Sensor" : v
+deactivate "ab: AtomicBroadcast"
+"si: Sensor" --> "gv: GetValue" : v
+deactivate "si: Sensor"
+"sc: Scheduler" <-- "gv: GetValue" : v
+deactivate "gv: GetValue"
+
+"sc: Scheduler" -> "f: Futur" : set(v)
+activate "f: Futur"
+"sc: Scheduler" <-- "f: Futur" :
+
+box "Proxy" #Orange
+participant "f: Futur"
+end box
+
+
+@enduml
