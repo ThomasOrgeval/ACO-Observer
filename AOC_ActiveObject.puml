@@ -1,0 +1,149 @@
+@startuml
+
+package broadcast #lightblue {
+  class AtomicBroadcast {
+      + sensor
+      + channels
+      + count
+      configure()
+      execute()
+      valueRead()
+  }
+  interface Broadcast {
+      configure()
+      execute()
+      valueRead()
+  }
+  class EpochBroadcast {
+      +sensor
+      configure()
+      execute()
+      valueRead()
+  }
+  class SequentialBroadcast {
+      +sensor
+      +channels
+      +value
+      +count
+      configure()
+      execute()
+      valueRead()
+  }
+}
+
+package observer #PaleGreen {
+  class Display {
+  Display()
+  update()
+  getValues()
+  getNumber()
+  +values
+  +number
+  }
+  interface Observer {
+  update()
+  }
+  interface ObserverAsync {
+  }
+}
+
+package proxy #Wheat {
+  class Channel {
+  Channel()
+  update()
+  getValue()
+  +scheduledExecutorService
+  +observer
+  +sensor
+  }
+  class GetValue {
+  GetValue()
+  call()
+  +sensorAsync
+  }
+  class Update {
+  Update()
+  call()
+  +observer
+  +sensor
+  }
+}
+
+package subject #GreenYellow {
+  interface Sensor {
+    getValue()
+    tick()
+  }
+  interface SensorAsync {
+  getValue()
+  }
+  class SensorImpl {
+  SensorImpl()
+  attach()
+  detach()
+  getValue()
+  tick()
+  update()
+  getBaseValue()
+  setLock()
+  +observers
+  +broadcast
+  +value
+  +lock
+  }
+  interface Subject {
+  attach()
+  detach()
+  }
+}
+
+package Java {
+  interface Future {
+  }
+  class Scheduler {
+  }
+  class Callable {
+  }
+}
+class Main {
+}
+
+Sensor --|> Subject
+Sensor --|> SensorAsync
+ObserverAsync --|> Observer
+Display ..|> ObserverAsync
+
+Channel ..|> ObserverAsync
+Channel ..|> SensorAsync
+
+SensorImpl ..|> Sensor
+
+AtomicBroadcast ..|> Broadcast
+EpochBroadcast ..|> Broadcast
+SequentialBroadcast ..|> Broadcast
+
+Main ..> AtomicBroadcast
+Main ..> EpochBroadcast
+Main ..> SequentialBroadcast
+
+Scheduler <.. Channel
+Callable <.. GetValue
+Callable <.. Update
+
+note "ActiveObject" as N1
+Future <.. N1 : Future
+Callable <.. N1 : MethodInvocation
+Update <.. N1 : ConcreteMI
+Scheduler <.. N1 : Scheduler
+Channel <.. N1 : Proxy
+Display <.. N1 : Servant
+ObserverAsync <.. N1 : Service
+Sensor <.. N1 : Client
+
+note "Proxy" as N2
+Channel <.. N2 : Proxy
+ObserverAsync <.. N2 : Client
+SensorImpl <.. N2 : ConcreteComponent
+Sensor <.. N2 : Component
+
+@enduml

@@ -1,0 +1,31 @@
+@startuml
+'httpsc://plantuml.com/sequence-diagram
+
+box "Client" #LightBlue
+participant "se: SensorImpl"
+end box
+
+box "Proxy" #Orange
+participant "ca: Channel"
+participant "u1: Update"
+end box
+
+box "Scheduler" #FFAAAA
+participant "sc: Scheduler"
+end box
+
+activate "se: SensorImpl"
+"se: SensorImpl" -> "ca: Channel" : update(c)
+
+activate "ca: Channel"
+"ca: Channel" -> "u1: Update" : create()
+"ca: Channel" -> "sc: Scheduler" : enqueue(u1)
+
+activate "sc: Scheduler"
+"sc: Scheduler" -> "sc: Scheduler" : create(): Future
+deactivate "sc: Scheduler"
+
+"ca: Channel" --> "se: SensorImpl": f: Future
+deactivate "ca: Channel"
+
+@enduml
