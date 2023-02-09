@@ -1,7 +1,7 @@
-package broadcast;
+package fr.istic.aco.broadcast;
 
-import observer.ObserverAsync;
-import subject.SensorImpl;
+import fr.istic.aco.observer.ObserverAsync;
+import fr.istic.aco.subject.SensorImpl;
 
 import java.util.List;
 

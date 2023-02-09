@@ -1,16 +1,17 @@
-package broadcast;
+package fr.istic.aco.broadcast;
 
-import observer.ObserverAsync;
-import subject.SensorImpl;
+import fr.istic.aco.observer.ObserverAsync;
+import fr.istic.aco.subject.SensorImpl;
 
 import java.util.List;
 
+
 /**
- * Epoch broadcast
+ * Sequential broadcast
  *
  * @author Orgeval Thomas & Bourgeois Bastien
  */
-public class EpochBroadcast implements Broadcast {
+public class SequentialBroadcast implements Broadcast {
     /**
      * Sensor to broadcast
      */
@@ -18,6 +19,21 @@ public class EpochBroadcast implements Broadcast {
 
     /**
      * Channels to broadcast to
+     */
+    private List<ObserverAsync> channels;
+
+    /**
+     * Value to broadcast
+     */
+    private int value;
+
+    /**
+     * Number of channels to broadcast to
+     */
+    private int count = 0;
+
+    /**
+     * Configure the broadcast
      *
      * @param sensor   sensor to broadcast
      * @param channels channels to broadcast to
@@ -25,6 +41,7 @@ public class EpochBroadcast implements Broadcast {
     @Override
     public void configure(SensorImpl sensor, List<ObserverAsync> channels) {
         this.sensor = sensor;
+        this.channels = channels;
     }
 
     /**
@@ -32,7 +49,11 @@ public class EpochBroadcast implements Broadcast {
      */
     @Override
     public void execute() {
-        sensor.update();
+        if (count == 0) {
+            value = sensor.getBaseValue();
+            count = channels.size();
+            sensor.update();
+        }
     }
 
     /**
@@ -42,6 +63,7 @@ public class EpochBroadcast implements Broadcast {
      */
     @Override
     public int valueRead() {
-        return sensor.getBaseValue();
+        count--;
+        return value;
     }
 }

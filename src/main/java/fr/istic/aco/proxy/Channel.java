@@ -1,9 +1,9 @@
-package proxy;
+package fr.istic.aco.proxy;
 
-import observer.Display;
-import observer.ObserverAsync;
-import subject.Sensor;
-import subject.SensorAsync;
+import fr.istic.aco.observer.Display;
+import fr.istic.aco.observer.ObserverAsync;
+import fr.istic.aco.subject.Sensor;
+import fr.istic.aco.subject.SensorAsync;
 
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;

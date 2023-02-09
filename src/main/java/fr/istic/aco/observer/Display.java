@@ -1,6 +1,6 @@
-package observer;
+package fr.istic.aco.observer;
 
-import subject.SensorAsync;
+import fr.istic.aco.subject.SensorAsync;
 
 import java.util.ArrayList;
 import java.util.List;

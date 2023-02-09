@@ -1,17 +1,16 @@
-package broadcast;
+package fr.istic.aco.broadcast;
 
-import observer.ObserverAsync;
-import subject.SensorImpl;
+import fr.istic.aco.observer.ObserverAsync;
+import fr.istic.aco.subject.SensorImpl;
 
 import java.util.List;
 
-
 /**
- * Sequential broadcast
+ * Atomic broadcast
  *
  * @author Orgeval Thomas & Bourgeois Bastien
  */
-public class SequentialBroadcast implements Broadcast {
+public class AtomicBroadcast implements Broadcast {
     /**
      * Sensor to broadcast
      */
@@ -21,11 +20,6 @@ public class SequentialBroadcast implements Broadcast {
      * Channels to broadcast to
      */
     private List<ObserverAsync> channels;
-
-    /**
-     * Value to broadcast
-     */
-    private int value;
 
     /**
      * Number of channels to broadcast to
@@ -49,11 +43,9 @@ public class SequentialBroadcast implements Broadcast {
      */
     @Override
     public void execute() {
-        if (count == 0) {
-            value = sensor.getBaseValue();
-            count = channels.size();
-            sensor.update();
-        }
+        sensor.setLock(true);
+        count = channels.size();
+        sensor.update();
     }
 
     /**
@@ -63,7 +55,9 @@ public class SequentialBroadcast implements Broadcast {
      */
     @Override
     public int valueRead() {
-        count--;
-        return value;
+        if (--count == 0) {
+            sensor.setLock(false);
+        }
+        return sensor.getBaseValue();
     }
 }

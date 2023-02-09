@@ -1,10 +1,12 @@
-import broadcast.AtomicBroadcast;
-import broadcast.Broadcast;
-import broadcast.EpochBroadcast;
-import broadcast.SequentialBroadcast;
-import observer.Display;
-import proxy.Channel;
-import subject.SensorImpl;
+package fr.istic.aco;
+
+import fr.istic.aco.broadcast.AtomicBroadcast;
+import fr.istic.aco.broadcast.Broadcast;
+import fr.istic.aco.broadcast.EpochBroadcast;
+import fr.istic.aco.broadcast.SequentialBroadcast;
+import fr.istic.aco.observer.Display;
+import fr.istic.aco.proxy.Channel;
+import fr.istic.aco.subject.SensorImpl;
 
 import java.util.ArrayList;
 import java.util.List;

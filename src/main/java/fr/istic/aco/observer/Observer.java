@@ -1,4 +1,4 @@
-package observer;
+package fr.istic.aco.observer;
 
 
 /**

@@ -1,6 +1,6 @@
-package subject;
+package fr.istic.aco.subject;
 
-import observer.Observer;
+import fr.istic.aco.observer.Observer;
 
 /**
  * Subject interface

@@ -1,6 +1,6 @@
-package proxy;
+package fr.istic.aco.proxy;
 
-import subject.SensorAsync;
+import fr.istic.aco.subject.SensorAsync;
 
 import java.util.concurrent.Callable;
 

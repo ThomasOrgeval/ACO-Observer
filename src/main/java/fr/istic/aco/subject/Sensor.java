@@ -1,4 +1,4 @@
-package subject;
+package fr.istic.aco.subject;
 
 
 /**

@@ -1,8 +1,8 @@
-package subject;
+package fr.istic.aco.subject;
 
-import broadcast.Broadcast;
-import observer.Observer;
-import observer.ObserverAsync;
+import fr.istic.aco.broadcast.Broadcast;
+import fr.istic.aco.observer.Observer;
+import fr.istic.aco.observer.ObserverAsync;
 
 import java.util.ArrayList;
 import java.util.List;
