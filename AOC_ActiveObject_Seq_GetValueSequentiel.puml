@@ -1,0 +1,37 @@
+@startuml
+'httpsc://plantuml.com/siquence-diagram
+
+
+box "Scheduler" #FFAAAA
+participant "sc: Scheduler"
+end box
+
+activate "sc: Scheduler"
+"u: Update" <- "sc: Scheduler" : call()
+activate "u: Update"
+
+
+"u: Update" -> "console: Main" : update()
+deactivate "u: Update"
+activate "console: Main"
+"console: Main" -> "ca: Channel" : valueRead()
+
+box "Proxy" #LightBlue
+participant "ca: Channel"
+end box
+deactivate "console: Main"
+activate "ca: Channel"
+"gv: GetValue" <- "ca: Channel" : valueRead()
+activate "gv: GetValue"
+deactivate "gv: GetValue"
+"ca: Channel" --> "sc: Scheduler" : scheduler()
+deactivate "ca: Channel"
+"ca: Channel" <- "sc: Scheduler" : r
+activate "ca: Channel"
+"ca: Channel" --> "console: Main" : Integer
+
+box "ConcreteMI" #Wheat
+participant "gv: GetValue"
+end box
+
+@enduml
